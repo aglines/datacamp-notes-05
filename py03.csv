@@ -1,0 +1,2 @@
+how to see first few rows of df?,df.head() returns first few rows and all columns
+how to see all column names & what datatype they store,df.info() method
