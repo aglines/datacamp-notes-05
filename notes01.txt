@@ -287,6 +287,9 @@ here, group by breed, select weight col, and take the mean, giving us the avg we
     avg_weight_by_breed.plot(kind="bar")
     dogsdf["heights"].hist()
 
+Histogram MULT VARS at a TIME - 
+dogs[["height_cm", "weight_kg"]].hist()
+
 Line plots can show changes in numeric variables over time
     dogö.plot(kind="line")
 
@@ -326,3 +329,58 @@ for lab, row in brics.iterrows() :
 this WORKS yes but youre creating a Series object on every iteration
 which doesnt scale for large datasets
 use instead, APPLY
+
+-----------------------------------------
+MISSING VALUES
+isna method
+
+dogs.isna()
+shows whole df, NaN are True bools, anything w a value is False
+
+dogs.isna().any()
+chain isna with any method
+get one bool for each column if theres any NaN in that col
+
+take sum of Bools to see exactly how many NaNs det finns
+dogs.isna().sum()
+colWeight_  2   
+    so theres 2 NaNs in col Weight or whatver
+
+use those counts to visualze missing data in a bar plot
+dogs.isna().sum().plot(kind="bar")
+
+so what to do?DROPNA removes ALL ROWS w missing data
+dogs.dropna()
+
+so fioll them instead
+dogs.fillna(0)
+
+
+-----------------------------------------------------
+CREATING DATAFRAMES
+how create
+ok dicts yea
+
+make from a list of dit, 
+make df fr a dict of lists
+
+listOfDicts = [
+    {"name": "abc", "age":0 },
+    {"name": "def", "age":4 },
+]
+new = pd.DataFrame(listOfDicts)
+
+dictOfLists = {
+    "name": ["abc","def"] ,
+    "age" : [0, 4]
+}
+----------------------------------------------------
+CSV READ AND WRITE TO
+
+read from
+pd.read_csv("filepath/name.csv")
+
+alreadyDoneDataframe.to_csv("newfile.csv")
+writes to that 
+
+

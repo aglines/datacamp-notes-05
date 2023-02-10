@@ -94,6 +94,56 @@ print(____)
 print(____)
 
 
+THEIR ORIG
+
+# Get the worldwide mean temp by year
+mean_temp_by_year = temp_by_country_city_vs_year.mean()
+#print(mean_temp_by_year.max())
+print(mean_temp_by_year)
+# Filter for the year that had the highest mean temp
+#mean_temp_by_year[mean_temp_by_year == mean_temp_by_year.max()]  
+mean_temp_by_year[mean_temp_by_year]
+# Get the mean temp by city
+#mean_temp_by_city = temp_by_country_city_vs_year.____
+# Filter for the city that had the lowest mean temp
+#print(mean_temp_by_city[____])
+
+
+
+# Import matplotlib.pyplot with alias plt
+import matplotlib.pyplot as plt
+# Look at the first few rows of data
+print(____)
+# Get the total number of avocados sold of each size
+nb_sold_by_size = ____
+# Create a bar plot of the number of avocados sold by size
+# Show the plot
+
+
+
+
+# Import matplotlib.pyplot with alias plt
+import matplotlib.pyplot as plt
+
+# Look at the first few rows of data
+#print(avocados.head())
+
+# Get the total number of avocados sold of each size
+
+#nb_sold_by_size = avocados["nb_sold"].cumsum()
+
+small = avocados[avocados["size"] == "small" ]
+smsold = small["nb_sold"].cumsum()
+
+print(smsold)
+
+#print(nb_sold_by_size)
+
+# Create a bar plot of the number of avocados sold by size
+
+
+# Show the plot
+#plt.show()
 
 
 
@@ -101,3 +151,17 @@ print(____)
 
 
 
+
+OK I TOOK THEIR ANSWER
+
+# Histogram of conventional avg_price 
+avocados[avocados["type"] == "conventional"]["avg_price"].hist()
+
+# Histogram of organic avg_price
+avocados[avocados["type"] == "organic"]["avg_price"].hist()
+
+# Add a legend
+plt.legend(["conventional", "organic"])
+
+# Show the plot
+plt.show()
