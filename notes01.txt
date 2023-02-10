@@ -135,7 +135,7 @@ dogs.groupby(["color","breed"])["weight","age"].agg([max, min])
 
 
 --------------------------------------------------------------
-grouped summary stats w pivot table instead of groupby
+PIVOT TABLE grouped summary stats w pivot table instead of groupby
 
     groupby was df.groupby("color")["breed"]
 pivot table: values is selected col, index is col to group by
@@ -200,7 +200,6 @@ subset rows at inner index - pass a list of BOTH indexes to loc
 df.loc[[ ("addr", "local"), ("phone", "mobile")  ]]
 resulting rows must match both indexes - just matching one index wont be returned
 
-
 sort by index
 df.sort_index()
     sorts all indexes from outer to inner in ascending
@@ -209,8 +208,6 @@ sort by index multiple
 df.sort_index( level=["addr", "phone"], ascending=[True,False])
 
 downsides? stores data in 2 ways means 2 syntaxes
-
-
 ------------------------------------------------------------------------------------------------
 SLICING 
 
@@ -241,68 +238,91 @@ slicing by dates - you can use just the year insetad of the whole string
 iloc - does NOT include final value, 
 loc DOES include final value
 
+----------------------------------------------------------
+pivot table subsets and calculsations
+
+review
+df.pivot_table(values="height", index="color", columns="breed" ..)
+args:
+1st "values" or nothing,
+    values to select
+2nd "index"
+group by this, display in ROWS
+3rd "columns" group by this in COLUMNS
+default agg func is mean
+fill_value=0,
+margins=True . sums it
+
+---pivot tables are just dataframes wtih sorted indexes
+
+so loc + slicing is ideal
+dog_height_by_breed_and_color.loc["chow chow":"poodle"]
+    for reference, table looks like - 
+
+COLOR       Black   Brown   Tan
+BREED   
+ChowChow    0.5     4.4     NaN
+Labrador    6.4     2.2     3.2
+Poodle      2.3     NaN     0.4
+
+summary statistics methods have an argument "axis",
+    dog_height_by_breed_and_color.mean(axis="index")
+index is default, meaning - "do this calculation ACROSS rows"
+    here gives you a list of mean values for all COLORS, ie across the BREEDS which are rows:
+color
+Black   34.3
+Brown   13.5
+Tan     3.4
+........ 
+to calc a summary stat "ACROSS columns", i.e. for each row,  axis="columns"
+
+
+--------------------------------------------------------------------------
+CH 4 VIS DATA  Creating and Visualizing DataFrames
+
+Plot w dataframe - call the dataframe slice and then the plt type
+
+Histograms or bar plots can show reltnsshps btwn a categorical variable, and a numeric variable
+here, group by breed, select weight col, and take the mean, giving us the avg weight of e breed
+    avg_weight_by_breed.plot(kind="bar")
+    dogsdf["heights"].hist()
+
+Line plots can show changes in numeric variables over time
+    dogö.plot(kind="line")
+
+can change angle of labels 
+    dog.plot(x="date", y0+"weighg",kind= "line", rot=45)
+
+
+scatterplots show reltans btwn 2 numeric variables
 
 
 
+Plots can be layered atop each other, on same graph,
+use plt.legend w a list of labels before plt.show(),
+this will show a color legend woo
+
+Also alpha is translucency
+
+dogpack[dogpack["sex"]=="F"]["height"].hist(alpha=0.7)
+dogpack[dogpack["sex"]=="M"]["height"].hist(alpha=0.7)
+plt.legend(["F","M"])
+plt.show()
 
 
 
+LOOP OVER DATAFRAME
 
+METHOD  "ITERROWS"
+    gives 2 things - label of row, and data in that row (as a series)
+for label, row in brics.iterrows():
+    print... etc
+bc each row is a series you can subselect from there too
 
+for lab, row in brics.iterrows() :
+    print(lab + ": " + row["capital"])
+    brics.loc[lab, "name_length"] = len(row["country"])
 
-
-Slicing and subsetting with .loc and .iloc
-
-Slicing index values
-
-Slicing in both directions
-
-Slicing time series
-
-Subsetting by row/column number
-
-Working with pivot tables
-
-Pivot temperature by city and year
-
-Subsetting pivot tables
-
-Calculating on a pivot table
-
-
-4
-Creating and Visualizing DataFrames
-
-Learn to visualize the contents of your DataFrames, handle missing data values, and import data from and export data to CSV files.
-
-Visualizing your data
-
-Which avocado size is most popular?
-
-Changes in sales over time
-
-Avocado supply and demand
-
-Price of conventional vs. organic avocados
-
-Missing values
-
-Finding missing values
-
-Removing missing values
-
-Replacing missing values
-
-Creating DataFrames
-
-List of dictionaries
-
-Dictionary of lists
-
-Reading and writing CSVs
-
-CSV to DataFrame
-
-DataFrame to CSV
-
-Wrap-up
+this WORKS yes but youre creating a Series object on every iteration
+which doesnt scale for large datasets
+use instead, APPLY
