@@ -1,2 +1,23 @@
 how to see first few rows of df?,df.head() returns first few rows and all columns
-how to see all column names & what datatype they store,df.info() method
+how to see all column names in df & what datatype they store,df.info() method
+how to see just column names in a dataframe?,df.columns attribute
+how see if df col has any null values?,df.info(),will show count of non-null rows in each col - as well as number of rows
+how to see how many rows or columns in a df?,df.shape attribute gives (rownumber, colnumber),remember no parenths
+how to see min or max value in each col in a df?,df.describe(),shows many diff statistics 
+how to see mean, median, or stddev in each col in df?,df.describe()
+how to see all values in a dataframe in a 2D numpy array?,df.values,attribute so use dot notation,returns an index object
+how to see row numbers or names in a dataframe?,df.index  shows  rows,returns an index object
+how to sort values in a dataframe?,df.sort_values("columnName"),   default is ascending
+how to change sorting order direction in df,df.sort_values("colName", ascending=False)
+how to sort by multiple values,df.sort_values(["colToSortFirst", "colSortSecond"])
+how to sort with diff directions for diff cols?,df.sort_values(["colToSortFirst", "colSortSecond"], ascending=[True,False]),pass in a list of bools to the ascending argument
+how to see just one dataframe col?,df["colName"]
+how to see multiple dataframe cols?,df[["colName1", "colName2"]],the outer sqr brackets subset the df,inner sqr brkts make a list of cols to subset,can use a variable for this list also like colsToSubset
+how to filter dataframe rows using a logical condition?,df["colName] > 50,returns a list of booleans for each row whether they meet the condition
+how to subset a df to get all rows that meet a condition?,df[df["colName"] > 50 ],or use text - df[df["col3"] == "MainStreet" ]
+how to subset df rows for multiple conditions?,use & logicl opertr,(is_over5["size"] > 5 & is_street["addr"] == "MainStreet" ),df[is_over50 & is_MainStreet]
+how to filter a dataframe on multiple values of a single column?,IS IN method defines a bool list,is_Red_or_Gray = df["color"].isin(["Red", "Gray"]),df[is_Red_or_Gray]     # then filter using that list
+
+
+
+

@@ -1,0 +1,190 @@
+
+
+DATA MANIPULATION W PANDAS
+Transforming DataFrames
+
+Let’s master the pandas basics. Learn how to inspect DataFrames and perform fundamental manipulations, including sorting rows, subsetting, and adding new columns.
+
+###### DataFrames - Inspecting , first 3
+
+pandas built on numpy - multidim array ojbects for easy data manip,
+ & matplolib has data viz abilites
+
+rectangular data = tabular data
+Pandas IS designed to work w rectangular data.
+
+**********************************
+### EXAMINE data: 
+
+df.head()
+    first few rows shows
+df.info()
+    shows all cols, non-null count of rows, and datatype
+df.shape
+    number rows and number cos
+df.describe()
+    gives some summary stats - count, mean, stddev, min, max..
+df.values
+    shows all the values in a 2D numpy array
+df.columns
+    column names
+df.index 
+    shows row numbers or names
+
+### Sorting and subsetting
+sort values in a dataframe?
+df.sort_values("columnName")
+    default is ascending
+
+how to change sorting order direction in df
+df.sort_values("colName", ascending=False)
+
+how to sort by multiple values
+df.sort_values(["colToSortFirst", "colSortSecond"])
+
+df sorting - what if you want first sort in one direction & next sort another?
+df.sort_values(["colToSortFirst", "colSortSecond"], ascending=[True,False])
+pass in a list of bools to the ascending argument
+
+how to see just one dataframe col?
+df["colName"]
+
+how to see multiple dataframe cols?
+df[["colName1", "colName2"] ]
+here the outer sqr brackets subset the df, inner sqr brackets make a list of cols to subset,can use a variable for this list also like colsToSubset
+
+how to subset rows using a logical condition?
+df["colName] > 50,
+returns a list of booleans for each row whether they meet the condition
+
+how to subset the entire dataframe to get all rows that meet a logical condition?
+df[df["colName"] > 50 ]
+also  text  df[df["col3"] == "MainStreet" ]
+
+how to subset rows with multiple conditions?
+is_over50["size"] > 50
+is_MainStreet["addr"] == "MainStreet"
+df[is_over50 & is_MainStreet]
+
+or in one line
+df[ (df["people"] < 1000) & (df["region"] == "Pacific") ] 
+
+use logical operators like & or ! to subselect even more
+
+how to filter a dataframe on multiple values of a single column?
+is_Red_or_Gray = df["color"].isin(["Red", "Gray"]),
+df[is_Red_or_Gray],    define a boolean then filter on that bool list
+
+
+
+New columns
+
+Adding new columns
+
+Combo-attack!
+Aggregating DataFrames
+0%
+
+In this chapter, you’ll calculate summary statistics on DataFrame columns, and master grouped summary statistics and pivot tables.
+
+Summary statistics
+
+Mean and median
+
+Summarizing dates
+
+Efficient summaries
+
+Cumulative statistics
+
+Counting
+
+Dropping duplicates
+
+Counting categorical variables
+
+Grouped summary statistics
+
+What percent of sales occurred at each store type?
+
+Calculations with .groupby()
+
+Multiple grouped summaries
+
+Pivot tables
+
+Pivoting on one variable
+
+Fill in missing values and sum values with pivot tables
+
+
+3
+Slicing and Indexing DataFrames
+
+Indexes are supercharged row and column names. Learn how they can be combined with slicing for powerful DataFrame subsetting.
+
+Explicit indexes
+
+Setting and removing indexes
+
+Subsetting with .loc[]
+
+Setting multi-level indexes
+
+Sorting by index values
+
+Slicing and subsetting with .loc and .iloc
+
+Slicing index values
+
+Slicing in both directions
+
+Slicing time series
+
+Subsetting by row/column number
+
+Working with pivot tables
+
+Pivot temperature by city and year
+
+Subsetting pivot tables
+
+Calculating on a pivot table
+
+
+4
+Creating and Visualizing DataFrames
+
+Learn to visualize the contents of your DataFrames, handle missing data values, and import data from and export data to CSV files.
+
+Visualizing your data
+
+Which avocado size is most popular?
+
+Changes in sales over time
+
+Avocado supply and demand
+
+Price of conventional vs. organic avocados
+
+Missing values
+
+Finding missing values
+
+Removing missing values
+
+Replacing missing values
+
+Creating DataFrames
+
+List of dictionaries
+
+Dictionary of lists
+
+Reading and writing CSVs
+
+CSV to DataFrame
+
+DataFrame to CSV
+
+Wrap-up
