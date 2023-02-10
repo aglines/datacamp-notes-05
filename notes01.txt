@@ -1,20 +1,16 @@
 
 
-DATA MANIPULATION W PANDAS
-Transforming DataFrames
+COURSE DATA MANIPULATION W PANDAS
 
-Let’s master the pandas basics. Learn how to inspect DataFrames and perform fundamental manipulations, including sorting rows, subsetting, and adding new columns.
+1 Transforming DataFrames
+fundamental manipulations, including sorting rows, subsetting, and adding new columns.
 
-###### DataFrames - Inspecting , first 3
-
+###### DataFrames - Inspecting 
 pandas built on numpy - multidim array ojbects for easy data manip,
- & matplolib has data viz abilites
+ & matplolib has data viz abilites.  rectangular data = tabular data.  Pandas IS designed to work w rectangular data.
 
-rectangular data = tabular data
-Pandas IS designed to work w rectangular data.
-
-**********************************
-### EXAMINE data: 
+---------------------------------------
+EXAMINE data: 
 
 df.head()
     first few rows shows
@@ -31,107 +27,190 @@ df.columns
 df.index 
     shows row numbers or names
 
-### Sorting and subsetting
-sort values in a dataframe?
+----------------------------------------------------------
+Sorting and subsetting
+
+sort values
 df.sort_values("columnName")
     default is ascending
 
-how to change sorting order direction in df
+change sorting order
 df.sort_values("colName", ascending=False)
 
-how to sort by multiple values
+sort by multiple values
 df.sort_values(["colToSortFirst", "colSortSecond"])
 
-df sorting - what if you want first sort in one direction & next sort another?
+df sorting - diff directions
 df.sort_values(["colToSortFirst", "colSortSecond"], ascending=[True,False])
-pass in a list of bools to the ascending argument
 
-how to see just one dataframe col?
+see just one dataframe col?
 df["colName"]
 
-how to see multiple dataframe cols?
+see multiple dataframe cols?
 df[["colName1", "colName2"] ]
-here the outer sqr brackets subset the df, inner sqr brackets make a list of cols to subset,can use a variable for this list also like colsToSubset
 
-how to subset rows using a logical condition?
-df["colName] > 50,
-returns a list of booleans for each row whether they meet the condition
+subset rows using condition
+df["colName"] > 50,
 
-how to subset the entire dataframe to get all rows that meet a logical condition?
+subset on a condition?
 df[df["colName"] > 50 ]
-also  text  df[df["col3"] == "MainStreet" ]
 
-how to subset rows with multiple conditions?
+subset on multiple conditions?
 is_over50["size"] > 50
 is_MainStreet["addr"] == "MainStreet"
 df[is_over50 & is_MainStreet]
 
-or in one line
+subset on mult conditions in one line
 df[ (df["people"] < 1000) & (df["region"] == "Pacific") ] 
 
-use logical operators like & or ! to subselect even more
+subset on different values of a single column?
+is_Red_or_Gray = df["color"].isin(["Red", "Gray"])
+df[is_Red_or_Gray]
 
-how to filter a dataframe on multiple values of a single column?
-is_Red_or_Gray = df["color"].isin(["Red", "Gray"]),
-df[is_Red_or_Gray],    define a boolean then filter on that bool list
+add new columns from existing
+df["sizeMeters"] = df["sizeCm"] / 100
+
+---------------------------------------------------------------
+#### CHAP 2 SUMMARY STATS
+
+df["height"].mean()
+min, max
+median, mode
+var (variance), std, sum
+
+** aggregate method - combine any you want into a function
+def pct30(column):
+    return column.quantile(0.3)
+dogs["height"].agg(pct30)
+
+agg method on multiple col
+.. (as above)
+dogs[["height", "weight"]].agg(pct30)
+
+multiple aggs too -- 
+def pct40(column):
+    return column.quantile(0.4)
+dogs[["height", "weight"]].agg([pct30, pct40])
+
+cumulative sum
+dogs["height"].cumsum()
+ditto - cummax(), cummin(), cumprod()
+they all return a df, not a number
+
+--------------------------------------------------------------
+counting
+
+drop duplicates inside a single column
+df.drop_duplicates(subset="colName")
+
+drop duplicate pairs/groups within multiple columns
+df.drop_duplicates(subset=["col1", "col2"])
+
+count appearances in a column, ie categorical variables
+uniques.df["col1"].value_counts()
+
+and sort them as counting
+uniques.df["col1"].value_counts(sort=True)
+here sort is descending apparently
+
+normalize to turn counts into the proportion of total
+uniques.df["col1"].value_counts(normalize=True)
+--------------------------------------------------------------
+grouped summary stats
+
+do math on multiple subsets at once
+group by the color variable, select the weight col, & get the mean:
+dogs.groupby("color")["weight"].mean()
+
+instead of
+    dogs[dogs["color"] == "red"]["weight"].mean()
+    dogs[dogs["color"] == "blue"]["weight"].mean()
+    ...
+
+use agg method with grouped
+dogs.groupby("color")["weight"].agg([mean, min, sum])
+
+group by multiple everything
+dogs.groupby(["color","breed"])["weight","age"].agg([max, min])
 
 
+--------------------------------------------------------------
+grouped summary stats w pivot table instead of groupby
 
-New columns
+    groupby was df.groupby("color")["breed"]
+pivot table: values is selected col, index is col to group by
+df.pivot_table(values="breed", index="color")
 
-Adding new columns
+Note : pivot table uses the MEAN value for e group
 
-Combo-attack!
-Aggregating DataFrames
-0%
+use a diff summary stat? use "aggfunc" jfc
+df.pivot_table(values="breed", index="color", aggfunc=np.median)
 
-In this chapter, you’ll calculate summary statistics on DataFrame columns, and master grouped summary statistics and pivot tables.
+multi summ stats
+df.pivot_table(values="breed", index="color", aggfunc=[np.median, np.mean])
 
-Summary statistics
+PIVOT like groupby can use multi variables:
+    df.groupby(["color","breed"])["age"].mean()
+df.pivot_table(values="age", index="color", columns="breed")
+    here the 1st col chosen becomes "values", 2nd is "columns"
 
-Mean and median
+fill in missing vals or NaNs 
+df.pivot_table(values="age", index="color", columns="breed", fill_value=0)
 
-Summarizing dates
+margins=True :  
+last column & row has mean of all values, not counting NaNs ... but it's... a sum?
+df.pivot_table(values="age", index="color", columns="breed", fill_value=0, margins=True)
 
-Efficient summaries
+---------------------------------------------------------------------------------------------
+######## CHAP 3 Slicing and Indexing DataFrames
+Dataframes have 3 parts - a numpy array for data, & 2 indexes for row and col labels
 
-Cumulative statistics
+review: 
+    df.columns gives an Index object of col names
+    df.index gives an Index object of row numbers
 
-Counting
+move a col from body of df to the Index
+df.set_index("colName")
+note - index values are now left-aligned  not right-aligned
 
-Dropping duplicates
+move data back
+df.reset_index()
 
-Counting categorical variables
+drop the index entirely, reverting it to numbers
+df.reset_index(drop=True)
+    whatever col had been moved to Index, is now entirely gone
 
-Grouped summary statistics
+indexes make subsetting easier .loc
+df.loc[["name1", "name2"]]
+    this is hard to do without index names
 
-What percent of sales occurred at each store type?
+- index values need not be unique
 
-Calculations with .groupby()
+multiple indexes OK - multilevel or hierarchical
+df.set_index(["name", "age"])
+the inside one is the 2nd one set
+data forms groups first for outer index then inner
 
-Multiple grouped summaries
+subset rows of outer index - pass a list to loc with just outer index
+df.loc[["addr", "phone"]]
 
-Pivot tables
+subset rows at inner index - pass a list of BOTH indexes to loc
+df.loc[[ ("addr", "local"), ("phone", "mobile")  ]]
+resulting rows must match both indexes - just matching one index wont be returned
 
-Pivoting on one variable
+sort by index
+df.sort_index()
+    sorts all indexes from outer to inner in ascending
 
-Fill in missing values and sum values with pivot tables
+sort by index multiple
+df.sort_index( level=["addr", "phone"], ascending=[True,False])
+
+downsides? stores data in 2 ways means 2 syntaxes
 
 
-3
-Slicing and Indexing DataFrames
+------------------------------------------------------------------------------------------------
 
-Indexes are supercharged row and column names. Learn how they can be combined with slicing for powerful DataFrame subsetting.
 
-Explicit indexes
-
-Setting and removing indexes
-
-Subsetting with .loc[]
-
-Setting multi-level indexes
-
-Sorting by index values
 
 Slicing and subsetting with .loc and .iloc
 

@@ -17,7 +17,32 @@ how to filter dataframe rows using a logical condition?,df["colName] > 50,return
 how to subset a df to get all rows that meet a condition?,df[df["colName"] > 50 ],or use text - df[df["col3"] == "MainStreet" ]
 how to subset df rows for multiple conditions?,use & logicl opertr,(is_over5["size"] > 5 & is_street["addr"] == "MainStreet" ),df[is_over50 & is_MainStreet]
 how to filter a dataframe on multiple values of a single column?,IS IN method defines a bool list,is_Red_or_Gray = df["color"].isin(["Red", "Gray"]),df[is_Red_or_Gray]     # then filter using that list
+how add new column derived from existing cols?,df["sizeMeters"] = df["sizeCentimeters"] / 100,just calculate
 
 
 
 
+
+
+# Print mean weekly_sales by department and type; fill missing values with 0
+print(sales.pivot_table(values="weekly_sales",index="type",fill_value=0))
+
+
+
+
+
+# Look at temperatures
+
+print()
+
+# Set the index of temperatures to city
+temperatures_ind = ____
+
+# Look at temperatures_ind
+print(____)
+
+# Reset the temperatures_ind index, keeping its contents
+print(____)
+
+# Reset the temperatures_ind index, dropping its contents
+print(____)

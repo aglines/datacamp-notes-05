@@ -15,3 +15,22 @@ result = high_homelessness_srt[["state", "indiv_per_10k"]]
 
 # See the result
 print(result)
+
+
+# Group by type; calc total weekly sales
+
+
+print(sales_by_type)
+
+# Get proportion for each type
+sales_propn_by_type =  sales_by_type["A"], sales_by_type["B"]  / sum(sales_by_type)
+
+
+print(sales_propn_by_type)
+
+
+
+
+
+
+
