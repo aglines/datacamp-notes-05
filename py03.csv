@@ -19,30 +19,85 @@ how to subset df rows for multiple conditions?,use & logicl opertr,(is_over5["si
 how to filter a dataframe on multiple values of a single column?,IS IN method defines a bool list,is_Red_or_Gray = df["color"].isin(["Red", "Gray"]),df[is_Red_or_Gray]     # then filter using that list
 how add new column derived from existing cols?,df["sizeMeters"] = df["sizeCentimeters"] / 100,just calculate
 
-
-
-
-
-
 # Print mean weekly_sales by department and type; fill missing values with 0
 print(sales.pivot_table(values="weekly_sales",index="type",fill_value=0))
 
 
 
+# Make a list of cities to subset on
+cities = ["Moscow", "Saint Petersbug"]
+
+# Subset temperatures using square brackets
+print(temperatures["city"].isin(cities))
+
+# Subset temperatures_ind using .loc[]
+print(temperatures_ind.loc["city"].isin(cities))
 
 
-# Look at temperatures
 
-print()
 
-# Set the index of temperatures to city
-temperatures_ind = ____
 
-# Look at temperatures_ind
+
+
+# Index temperatures by country & city
+temperatures_ind = temperatures.set_index=(["country", "city"])
+
+# List of tuples: Brazil, Rio De Janeiro & Pakistan, Lahore
+rows_to_keep = 
+
+[("Brazil", "Rio De Janeiro") , ("Pakistan", "Lahore")]
+
+
+# Subset for rows to keep
+
+print(temperatures_ind)
+
+#print(temperatures_ind.loc[["Brazil"]])
+
+
+================
+# Use Boolean conditions to subset temperatures for rows in 2010 and 2011
+#temperatures.head()
+temperatures_bool = temperatures[(temperatures["date"] >= "2010-01-01") & (temperatures["date"] <= "2011-12-31")]
+
+# Set date as the index and sort the index
+temperatures_ind = temperatures.set_index("date").sort_index()
+
+# Use .loc[] to subset temperatures_ind for rows in 2010 and 2011
+print(  temperatures_ind.loc["2010-01-01":"2011-12-31"]     )
+
+# Use .loc[] to subset temperatures_ind for rows from Aug 2010 to Feb 2011
+print(temperatures_ind.loc["2010-08-01":"2011-02-28"])
+
+
+
+
+# Use Boolean conditions to subset temperatures for rows in 2010 and 2011
+#temperatures_bool = ____[(____ >= ____) & (____ <= ____)]
+temperatures_bool = temperatures[(temperatures["date"] >= "2010-01-01") & (temperatures["date"] <= "2011-12-31")]
+print(temperatures_bool)
+# Set date as the index and sort the index
+temperatures = temperatures.set_index("date").sort_index()
+# Use .loc[] to subset temperatures_ind for rows in 2010 and 2011
+print(  temperatures_ind.loc["2010-01-01":"2011-12-31"]     )
+# Use .loc[] to subset temperatures_ind for rows from Aug 2010 to Feb 2011
+print(temperatures_ind.loc["2010-08-01":"2011-02-28"])
+
+
+# Get 23rd row, 2nd column (index 22, 1)
+print(____)
+# Use slicing to get the first 5 rows
+print(____)
+# Use slicing to get columns 3 to 4
+print(____)
+# Use slicing in both directions at once
 print(____)
 
-# Reset the temperatures_ind index, keeping its contents
-print(____)
 
-# Reset the temperatures_ind index, dropping its contents
-print(____)
+
+
+
+
+
+
+

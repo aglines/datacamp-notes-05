@@ -182,7 +182,9 @@ df.reset_index(drop=True)
 
 indexes make subsetting easier .loc
 df.loc[["name1", "name2"]]
+
     this is hard to do without index names
+df[df["name1"].isin(["Mod","Nod"])]
 
 - index values need not be unique
 
@@ -198,6 +200,7 @@ subset rows at inner index - pass a list of BOTH indexes to loc
 df.loc[[ ("addr", "local"), ("phone", "mobile")  ]]
 resulting rows must match both indexes - just matching one index wont be returned
 
+
 sort by index
 df.sort_index()
     sorts all indexes from outer to inner in ascending
@@ -209,6 +212,42 @@ downsides? stores data in 2 ways means 2 syntaxes
 
 
 ------------------------------------------------------------------------------------------------
+SLICING 
+
+sort index before slicing!
+dfSorted = df.sort_index()
+
+set and sort index same time
+dfSorted = df.set_index(["animal","breed"]).sort_index()
+
+to slice rows at outer index - 
+dfSorted.loc["bird":"cat"]
+
+same technique wont work on inner index - 
+dfSorted.loc["parakeet":"Siamese"]
+    returns empty df but NO ERROR
+
+to slice rows at inner index - pass values as tuples
+dfSorted.loc[("bird","parakeet") : ("cat","Siamese")]
+
+slice dataframe columns with loc - keep all rows
+dfSorted.loc[:, "addr":"zip"]
+
+slice rows and cols at same time incl multi-index:
+dfSorted.loc[ ("country","city"):("population","subpop") , "name":"year" ]
+
+slicing by dates - you can use just the year insetad of the whole string
+
+iloc - does NOT include final value, 
+loc DOES include final value
+
+
+
+
+
+
+
+
 
 
 
